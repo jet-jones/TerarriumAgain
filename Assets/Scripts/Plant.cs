@@ -8,16 +8,18 @@ using Random = UnityEngine.Random;
 public class Plant : MonoBehaviour
 {
     [SerializeField] private int nextFruitChanceMultiplier = 200;
-
+    [SerializeField] private int minFruitSpawns = 1;
+    [SerializeField] private int maxFruitSpawns = 5;
+    
     [SerializeField] private GameObject fruitPrefab;
-    [SerializeField] private Transform[] fruitGrowPoints;
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private TextMeshProUGUI debugText;
     [SerializeField] private float growTime;
 
     private float _growth;
     private MaterialPropertyBlock _mpb;
-    public Fruit[] grownFruit;
+    public List<Fruit> grownFruit;
+    private int _fruitSpawnCount;
 
     private void UpdateGrowMat() {
         float growT = _growth / growTime;
@@ -26,7 +28,8 @@ public class Plant : MonoBehaviour
     }
     
     private void Start() {
-        grownFruit = new Fruit[fruitGrowPoints.Length];
+        grownFruit = new List<Fruit>();
+        _fruitSpawnCount = Random.Range(minFruitSpawns, maxFruitSpawns);
         _mpb = new MaterialPropertyBlock();
         UpdateGrowMat();
     }
@@ -37,32 +40,17 @@ public class Plant : MonoBehaviour
 
             if (_growth > growTime) _growth = growTime;
         } else {
-            var fruitCount = 0;
-            foreach (var fruit in grownFruit) {
-                if (fruit) fruitCount++;
-            }
-
-            if (fruitCount < fruitGrowPoints.Length) {
-                var chance = (fruitCount + 1) * nextFruitChanceMultiplier;
+            if (grownFruit.Count < _fruitSpawnCount) {
+                var chance = (grownFruit.Count + 1) * nextFruitChanceMultiplier;
                 var canGrow = Random.Range(0, chance) == 0;
 
                 if (canGrow) {
-                    var growPointIndex = -1;
-                    for (var i = 0; i < grownFruit.Length; i++) {
-                        if (grownFruit[i] == null) {
-                            growPointIndex = i;
-                            break;
-                        }
-                    }
+                    var advancedPlant = mesh.GetComponent<AdvancedPlant>();
                     
-                    var randomPoint = fruitGrowPoints[growPointIndex].position;
-                    if (growPointIndex < 0) Debug.Log("somethings fucked");
-                    
-                    var newFruit = Instantiate(fruitPrefab, randomPoint, Quaternion.identity).GetComponent<Fruit>();
+                    var newFruit = Instantiate(fruitPrefab, advancedPlant.GetGrowPoint(), Quaternion.identity).GetComponent<Fruit>();
                     newFruit.sourcePlant = this;
-                    newFruit.growPointIndex = growPointIndex;
 
-                    grownFruit[growPointIndex] = newFruit;
+                    grownFruit.Add(newFruit);
                 }
             }
         }

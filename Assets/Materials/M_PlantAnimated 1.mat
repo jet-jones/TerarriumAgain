@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_PlantAnimated
-  m_Shader: {fileID: -6465566751694194690, guid: 1d1d44e4cb10d5f44a7da22395a2b641,
+  m_Name: M_PlantAnimated 1
+  m_Shader: {fileID: -6465566751694194690, guid: 38db4ed8eae074543b8cea196f6a287a,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -111,12 +111,12 @@ Material:
     - _GlossyReflections: 0
     - _Grow: 0
     - _GrowMax: 1
-    - _GrowMin: 0
-    - _GrowT: 1
+    - _GrowMin: -0.5
+    - _GrowT: 0.342
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PushPull: -0.05
+    - _PushPull: -0.001
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
