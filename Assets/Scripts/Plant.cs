@@ -15,11 +15,13 @@ public class Plant : MonoBehaviour
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private TextMeshProUGUI debugText;
     [SerializeField] private float growTime;
+    public AdvancedPlant plant;
 
     private float _growth;
     private MaterialPropertyBlock _mpb;
     public List<Fruit> grownFruit;
     private int _fruitSpawnCount;
+    private int _growFruitIndex;
 
     private void UpdateGrowMat() {
         float growT = _growth / growTime;
@@ -28,13 +30,16 @@ public class Plant : MonoBehaviour
     }
     
     private void Start() {
-        grownFruit = new List<Fruit>();
         _fruitSpawnCount = Random.Range(minFruitSpawns, maxFruitSpawns);
+        plant.Generate(Random.Range(0, 10000));
+        grownFruit = new List<Fruit>();
         _mpb = new MaterialPropertyBlock();
         UpdateGrowMat();
     }
 
     private void Update() {
+        plant.UpdateMesh();
+        
         if (_growth < growTime) {
             _growth += Time.deltaTime;
 
@@ -47,7 +52,9 @@ public class Plant : MonoBehaviour
                 if (canGrow) {
                     var advancedPlant = mesh.GetComponent<AdvancedPlant>();
                     
-                    var newFruit = Instantiate(fruitPrefab, advancedPlant.GetGrowPoint(), Quaternion.identity).GetComponent<Fruit>();
+                    var newFruit = Instantiate(fruitPrefab, advancedPlant.GetGrowPoint(_growFruitIndex), Quaternion.identity).GetComponent<Fruit>();
+                    newFruit.branchIndex = _growFruitIndex;
+                    _growFruitIndex++;
                     newFruit.sourcePlant = this;
 
                     grownFruit.Add(newFruit);

@@ -17,6 +17,7 @@ public class Fruit : MonoBehaviour, IInteraction
     private Material fruitMat;
     private float growTime;
     private float scale;
+    [HideInInspector] public int branchIndex;
 
     private void Start()
     {
@@ -36,6 +37,7 @@ public class Fruit : MonoBehaviour, IInteraction
         }
 
         var growT = _growth / growTime;
+        transform.position = sourcePlant.plant.GetGrowPoint(branchIndex);
         transform.localScale = scale * growT * Vector3.one; 
         
         Hovered = false;
