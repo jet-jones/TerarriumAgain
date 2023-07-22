@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour {
     [SerializeField] private GameObject cursor;
     [SerializeField] private GameObject plantPrefab;
+
+    public GameObject toolCursor;
     
     private void Start()
     {
@@ -32,7 +34,10 @@ public class PlayerInteraction : MonoBehaviour {
                 cursor.transform.rotation = worldCursorRotation * Quaternion.Euler(0, 0, 90);
 
                 if (Input.GetMouseButtonDown(0)) {
+                    
+                    
                     Instantiate(plantPrefab, hit.point, Quaternion.Euler(-90, Random.Range(0, 360), 0));
+                    
                 }
             }
 
