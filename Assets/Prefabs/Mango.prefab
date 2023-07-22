@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3874317976365721771}
   - component: {fileID: 174387188874569486}
   - component: {fileID: 2706517624257221572}
+  - component: {fileID: 4806741512507420212}
   m_Layer: 0
   m_Name: Mango
   m_TagString: Untagged
@@ -25,14 +26,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4507970189085651473}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 13.4707775, y: 2.38, z: -28.07}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalRotation: {x: -0.705037, y: 0.05406396, z: 0.05406395, w: 0.70503694}
+  m_LocalPosition: {x: 13.310128, y: 3.524366, z: -29.111347}
+  m_LocalScale: {x: 20, y: 20, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 8.77}
 --- !u!33 &174387188874569486
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -83,3 +84,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4806741512507420212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4507970189085651473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cece9019c26b89e40be6cbefdfe76716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minScale: 5
+  maxScale: 30
+  sourcePlant: {fileID: 0}
+  mesh: {fileID: -7511558181221131132, guid: 1bf6e285c5f73bf459d16592f042575b, type: 3}
+  growTimeMin: 2
+  growTimeMax: 4
+  branchIndex: 0

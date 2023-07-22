@@ -49,10 +49,10 @@ MonoBehaviour:
   minScale: 0.4
   maxScale: 0.6
   sourcePlant: {fileID: 0}
-  mesh: {fileID: 504814040765687104}
+  mesh: {fileID: -7511558181221131132, guid: a39a98cd9bc33f0439d3816d6a73bc6c, type: 3}
   growTimeMin: 2
   growTimeMax: 4
-  growPointIndex: 0
+  branchIndex: 0
 --- !u!135 &5502331920837815606
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -140,12 +140,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a39a98cd9bc33f0439d3816d6a73bc6c, type: 3}
---- !u!23 &504814040765687104 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: a39a98cd9bc33f0439d3816d6a73bc6c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1207211076032494020}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1678252142905269807 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a39a98cd9bc33f0439d3816d6a73bc6c,
