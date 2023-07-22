@@ -7,14 +7,18 @@ using Random = UnityEngine.Random;
 
 public class Plant : MonoBehaviour
 {
+    [SerializeField] private int minSupportedFruits = 1;
+    [SerializeField] private int maxSupportedFruits = 4;
+
     [SerializeField] private GameObject fruitPrefab;
     [SerializeField] private Transform[] fruitGrowPoints;
     [SerializeField] private MeshRenderer mesh;
     [SerializeField] private TextMeshProUGUI debugText;
     [SerializeField] private float growTime;
+
     private float _growth;
     private MaterialPropertyBlock _mpb;
-    private bool grownFruit;
+    public Fruit[] grownFruit;
 
     private void UpdateGrowMat() {
         float growT = _growth / growTime;
@@ -23,6 +27,7 @@ public class Plant : MonoBehaviour
     }
     
     private void Start() {
+        grownFruit = new Fruit[fruitGrowPoints.Length];
         _mpb = new MaterialPropertyBlock();
         UpdateGrowMat();
     }
@@ -33,10 +38,27 @@ public class Plant : MonoBehaviour
 
             if (_growth > growTime) _growth = growTime;
         } else {
-            if (!grownFruit) {
-                var randomPoint = fruitGrowPoints[Random.Range(0,fruitGrowPoints.Length)].position;
-                Instantiate(fruitPrefab, randomPoint, Quaternion.identity);
-                grownFruit = true;
+            int validFruitCount = 0;
+            foreach (var fruit in grownFruit) {
+                if (fruit) validFruitCount++;
+            }
+
+            if (validFruitCount < fruitGrowPoints.Length)
+            {
+                int chance = (validFruitCount + 1) * 100;
+                bool canGrow = Random.Range(0, chance) == 0;
+
+                if (canGrow) {
+                    var randomPoint = fruitGrowPoints[Random.Range(0,fruitGrowPoints.Length)].position;
+                    //for () {
+                        
+                    //}
+                    
+                    var newFruit = Instantiate(fruitPrefab, randomPoint, Quaternion.identity).GetComponent<Fruit>();
+                    newFruit.sourcePlant = this;
+                
+                    //grownFruit.Add(newFruit);
+                }
             }
         }
 

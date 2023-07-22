@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 591146729271684938}
+  - component: {fileID: 1186513884158345721}
+  - component: {fileID: 5502331920837815606}
   m_Layer: 0
   m_Name: Fruit
   m_TagString: Untagged
@@ -32,6 +34,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1186513884158345721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2793072932398794582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cece9019c26b89e40be6cbefdfe76716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minScale: 0.7
+  maxScale: 1.2
+  sourcePlant: {fileID: 0}
+  mesh: {fileID: 504814040765687104}
+  growTimeMin: 2
+  growTimeMax: 4
+--- !u!135 &5502331920837815606
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2793072932398794582}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.57301956
+  m_Center: {x: 0, y: -0.57646066, z: 0}
 --- !u!1001 &1207211076032494020
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,6 +134,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a39a98cd9bc33f0439d3816d6a73bc6c, type: 3}
+--- !u!23 &504814040765687104 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: a39a98cd9bc33f0439d3816d6a73bc6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1207211076032494020}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1678252142905269807 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a39a98cd9bc33f0439d3816d6a73bc6c,
