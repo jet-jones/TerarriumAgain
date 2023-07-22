@@ -52,6 +52,7 @@ MonoBehaviour:
   mesh: {fileID: 504814040765687104}
   growTimeMin: 2
   growTimeMax: 4
+  growPointIndex: 0
 --- !u!135 &5502331920837815606
 SphereCollider:
   m_ObjectHideFlags: 0

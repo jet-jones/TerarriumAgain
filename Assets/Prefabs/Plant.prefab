@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b24b5c05cd742445804899da1759794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nextFruitChanceMultiplier: 500
   fruitPrefab: {fileID: 2793072932398794582, guid: ee45bc9efde55194a81b6a56aaf1ab5a,
     type: 3}
   fruitGrowPoints:
@@ -256,8 +257,8 @@ MonoBehaviour:
   - {fileID: 1295001035996385860}
   mesh: {fileID: 4559685803075366860}
   debugText: {fileID: 797921152838278286}
-  growTime: 10
-  grownFruit: 0
+  growTime: 2
+  grownFruit: []
 --- !u!1 &6543141218733088781
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +283,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6543141218733088781}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0053, y: 0.00443, z: 0.01728}
+  m_LocalPosition: {x: 0.00189, y: 0.00057, z: 0.00976}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []

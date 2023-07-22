@@ -112,7 +112,7 @@ Material:
     - _Grow: 0
     - _GrowMax: 0.4
     - _GrowMin: -0.48
-    - _GrowT: 1
+    - _GrowT: 0.786
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005

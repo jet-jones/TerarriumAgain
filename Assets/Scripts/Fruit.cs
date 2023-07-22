@@ -17,8 +17,11 @@ public class Fruit : MonoBehaviour, IInteraction
     private Material fruitMat;
     private float growTime;
     private float scale;
+    [HideInInspector] public int growPointIndex;
 
-    private void Start() {
+    private void Start()
+    {
+        transform.localScale = Vector3.zero;
         fruitMat = mesh.material;
         scale = Random.Range(minScale, maxScale);
         growTime = Random.Range(growTimeMin, growTimeMax);
@@ -39,8 +42,9 @@ public class Fruit : MonoBehaviour, IInteraction
         Hovered = false;
     }
     
-    public void OnInteract() {
-        //sourcePlant.grownFruit.Remove(this);
+    public void OnInteract()
+    {
+        sourcePlant.grownFruit[growPointIndex] = null;
         Destroy(gameObject);
     }
 }
