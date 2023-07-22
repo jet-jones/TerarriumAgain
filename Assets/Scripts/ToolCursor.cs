@@ -7,14 +7,16 @@ using UnityEngine;
 public class ToolCursor : MonoBehaviour
 {
     TextMeshProUGUI cursorText;
-    private ToolsType currentTool;
+    public ToolsType currentTool;
     public enum ToolsType
     {
         None,
+        Plant1,
         WateringCan,
         Pebble,
         Moss,
-        SeedGrass
+        Vines,
+        PebbleLarge,
     }
 
     public GameObject pebblePrefab;
