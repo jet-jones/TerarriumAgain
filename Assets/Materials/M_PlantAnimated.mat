@@ -111,12 +111,12 @@ Material:
     - _GlossyReflections: 0
     - _Grow: 0
     - _GrowMax: 1
-    - _GrowMin: 0
+    - _GrowMin: -0.5
     - _GrowT: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PushPull: -0.05
+    - _PushPull: -0.35
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -129,9 +129,9 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _WindNoiseIntensity: 0.0002
-    - _WindNoiseSize: 0.07
-    - _WindNoiseSpeed: 0.1
+    - _WindNoiseIntensity: 0
+    - _WindNoiseSize: 0
+    - _WindNoiseSpeed: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

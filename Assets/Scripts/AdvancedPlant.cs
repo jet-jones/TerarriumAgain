@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
@@ -17,11 +18,14 @@ public class AdvancedPlant : MonoBehaviour
     }
 
     private const float Tau = 6.28318530718f;
-    
+
+    [SerializeField] private float windScale;
+    [SerializeField] private float windIntensity;
+    [SerializeField] private float windSpeed;
+
+    [SerializeField] private float branchRadiusShrink = 0.5f;
     [SerializeField] float radius = 1.0f;
-    [SerializeField] float branchRadius = 1.0f;
     [SerializeField] int sides = 12;
-    [SerializeField] private int seed;
     [SerializeField] private int branchMinLength = 1;
     [SerializeField] private int branchMaxLength = 4;
     [SerializeField] private Vector2 wind;
@@ -31,8 +35,36 @@ public class AdvancedPlant : MonoBehaviour
     [SerializeField] private int length;
     [SerializeField] private float distanceBetweenPoints;
 
+    private List<Vector3> _baseTrunkPoints;
+    private List<Branch> _baseBranches;
+
+    // This is affected by wind
     private List<Vector3> _trunkPoints;
     private List<Branch> _branches;
+
+    private Mesh _mesh;
+
+    public void DrawDebug() {
+        if (_branches != null) {
+            //Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
+            
+            Handles.color = Color.red;
+
+            for (var i = 1; i < _trunkPoints.Count; i++) {
+                Handles.DrawLine(transform.TransformPoint(_trunkPoints[i]), 
+                    transform.TransformPoint(_trunkPoints[i - 1]), 2); //, 10
+            }
+            
+            Handles.color = Color.yellow;
+            foreach (var branch in _branches) {
+                for (var i = 1; i < branch.points.Count; i++) {
+                    Handles.DrawLine(transform.TransformPoint(branch.points[i]), 
+                        transform.TransformPoint(branch.points[i - 1]), 2); //, 10
+                }
+            }
+        }
+    }
+    
     private Vector3 GetRandomDirection(Vector3 lastDirection) {
         var randomDirection = Random.onUnitSphere;
         randomDirection.y = Mathf.Abs(randomDirection.y);
@@ -40,159 +72,137 @@ public class AdvancedPlant : MonoBehaviour
         return randomDirection.normalized;
     }
 
-    public Vector3 GetGrowPoint() {
-        var randomBranch = _branches[1];
-        //var randomPoint = randomBranch.points[Random.Range(0, randomBranch.points.Count)];
-        return  randomBranch.points[0];
-    }
-
-    private void OnDrawGizmosSelected() {
-        if (_branches != null) {
-            foreach (var branch in _branches) {
-                for (var i = 1; i < branch.points.Count; i++) {
-                    Gizmos.DrawLine(branch.points[i], branch.points[i - 1]);
-                }
-            }   
+    public Vector3 GetGrowPoint(int index) {
+        Random.InitState(index);
+        var result = Vector3.zero;
+        
+        if (_branches.Count > 0) {
+            var randomBranch = _branches[Random.Range(0, _branches.Count)];
+            if (randomBranch.points.Count > 0) {
+                result = transform.TransformPoint(randomBranch.points[Random.Range(0, randomBranch.points.Count)]);
+            }
         }
+        
+        Random.InitState(Environment.TickCount);
+        return result;
     }
-
-    private void Start() {
-        var mesh = new Mesh {name = "Plant"};
-        mesh.Clear();
+    private void GenerateMesh(List<Vector3> vertices, 
+        List<Vector2> uvs = null, List<Vector3> normals = null, List<int> triangleIndices = null) {
         
-        var ringCount = 0;
-        var vertices = new List<Vector3>();
-        var triangleIndices = new List<int>();
-        var normals = new List<Vector3>();
-        var uvs = new List<Vector2>();
-        
-        //Random.InitState(seed);
         _trunkPoints = new List<Vector3>();
         _branches = new List<Branch>();
 
-        var offset = transform.position;
-        var lastDirection = Vector3.up;
-        for (var i = 0; i < length; i++) {
-            _trunkPoints.Add(offset);
-            var lastOffset = offset;
-            offset += GetRandomDirection(lastDirection) * distanceBetweenPoints;
-            lastDirection = Vector3.Normalize(offset - lastOffset);
+        for (var i = 0; i < _baseTrunkPoints.Count; i++) {
+            var trunkPoint = _baseTrunkPoints[i];
+            var moveT = i / (float)_baseTrunkPoints.Count;
+            var xOffset = Mathf.PerlinNoise(i * windScale, Time.time * windSpeed) * windIntensity * moveT;
+            var zOffset = Mathf.PerlinNoise(i * windScale + 10000, Time.time * windSpeed) * windIntensity * moveT;
+
+            _trunkPoints.Add(trunkPoint + new Vector3(xOffset, 0, zOffset));
         }
         
-        for (var i = 0; i < length; i++) {
-            if (Random.Range(0.0f, 1.0f) < branchChance) {
-                var branchPointPos = _trunkPoints[i];
-                var newBranch = new Branch();
-                newBranch.trunkIndex = i;
-                newBranch.points = new List<Vector3>();
+        foreach (var branch in _baseBranches) {
+            var newBranch = new Branch {
+                points = new List<Vector3>(),
+                trunkIndex = branch.trunkIndex
+            };
 
-                newBranch.points.Add(branchPointPos);
+            var baseTrunkPoint = _baseTrunkPoints[branch.trunkIndex];
+            var trunkPoint = _trunkPoints[branch.trunkIndex];
+
+            for (var i = 0; i < branch.points.Count; i++) {
+                var moveT = i / (float)branch.points.Count;
+                var movedPoint = branch.points[i];
+                movedPoint -= baseTrunkPoint;
+                movedPoint += trunkPoint;
                 
-                branchPointPos += GetRandomDirection(Vector2.up) * distanceBetweenPoints;
-                newBranch.points.Add(branchPointPos);
-                var branchLength = Random.Range(branchMinLength, branchMaxLength) - 1;
-                var lastBranchPos = _trunkPoints[i];
-                for (var j = 0; j < branchLength; j++) {
-                    var direction = Vector3.Normalize(branchPointPos - lastBranchPos);
-                    lastBranchPos = branchPointPos;
-                    branchPointPos += GetRandomDirection(direction) * distanceBetweenPoints;
-                    newBranch.points.Add(branchPointPos);
-                }
-                
-                _branches.Add(newBranch);
+                var xOffset = Mathf.PerlinNoise(i * windScale, Time.time * windSpeed) * windIntensity * moveT;
+                var zOffset = Mathf.PerlinNoise(i * windScale + 10000, Time.time * windSpeed) * windIntensity * moveT;
+
+                newBranch.points.Add(movedPoint  + new Vector3(xOffset, 0, zOffset));
             }
+            
+            _branches.Add(newBranch);
         }
-
+        
+        /// ============== MESH
+        
+        var ringCount = 0;
+        
         var lastNormal = Vector3.up;
         for (var j = 0; j < _trunkPoints.Count; j++) {
-            var pointWorld = _trunkPoints[j];
-            var point = pointWorld - transform.position;
-            //Gizmos.DrawSphere(pointWorld, 0.05f);
-            if (j < _trunkPoints.Count - 1) {
-                //Gizmos.color = Color.white;
-                //Gizmos.DrawLine(pointWorld, _trunkPoints[j + 1]);
-
-                var nextPoint = _trunkPoints[j + 1] - transform.position;
-                var direction = Vector3.Normalize(point - nextPoint);
-                var normal = Quaternion.LookRotation(direction, lastNormal) * Vector3.up;
-                lastNormal = normal;
-                var biTangent = Vector3.Cross(direction, normal);
-                
-                /*
-                Gizmos.color = Color.red;
-                Gizmos.DrawLine(pointWorld, pointWorld + normal * 0.2f);
-                Gizmos.color = Color.green;
-                Gizmos.DrawLine(pointWorld, pointWorld + direction * 0.2f);
-                
-                Gizmos.color = Color.blue;
-                Gizmos.DrawLine(pointWorld, pointWorld + biTangent * 0.2f);
-
-                Gizmos.color = Color.white;
-                */
-                float trunkT = 1.0f - (j / (float)_trunkPoints.Count);
-                
-                var baseVert = vertices.Count;
-
-                for (var i = 0; i < sides; i++) {
-                    var f = i / (float)sides;
-                    var angRad = f * Tau;
-
-                    var radialOffset = new Vector2(
-                        Mathf.Cos(angRad),
-                        Mathf.Sin(angRad)
-                    );
-                    float ringRadius = trunkT * radius;
-                    radialOffset *= ringRadius;
-
-                    if (ringCount > 0) {
-                        var currentVert = baseVert + i;
-                        var nextVert = baseVert + ((i + 1) % sides);
-                        
-                        // these are the same verts but on the previous ring
-                        var currentVertLast = currentVert - sides;
-                        var nextVertLast = baseVert - sides + ((i + 1) % sides);
-                        
-                        triangleIndices.Add(currentVert);
-                        triangleIndices.Add(nextVert);
-                        triangleIndices.Add(currentVertLast);
-                        
-                        triangleIndices.Add(currentVertLast);
-                        triangleIndices.Add(nextVert);
-                        triangleIndices.Add(nextVertLast);
-                    }
-                    
-                    var vertexPosition = point + normal * radialOffset.x + biTangent * radialOffset.y;
-                    //Gizmos.DrawSphere(vertexPosition, 0.01f);
-                    
-                    vertices.Add(vertexPosition);
-                    normals.Add((vertexPosition - point).normalized );
-                    uvs.Add(new Vector2(ringRadius / radius,j / (float)_trunkPoints.Count));
-                }
-
-                ringCount++;
+            var point = _trunkPoints[j];
+            
+            Vector3 direction;
+            if (j > 0) {
+                var lastPoint = _trunkPoints[j - 1];
+                direction = Vector3.Normalize(lastPoint - point);
+            } else {
+                var nextPoint = _trunkPoints[j + 1];
+                direction = Vector3.Normalize(point - nextPoint);
             }
+            
+            var normal = Quaternion.LookRotation(direction, lastNormal) * Vector3.up;
+            lastNormal = normal;
+            var biTangent = Vector3.Cross(direction, normal);
+            
+            float trunkT = 1.0f - (j / (float)_trunkPoints.Count);
+            
+            var baseVert = vertices.Count;
+
+            for (var i = 0; i < sides; i++) {
+                var f = i / (float)sides;
+                var angRad = f * Tau;
+
+                var radialOffset = new Vector2(
+                    Mathf.Cos(angRad),
+                    Mathf.Sin(angRad)
+                );
+                float ringRadius = trunkT * radius;
+                radialOffset *= ringRadius;
+
+                if (triangleIndices != null && ringCount > 0) {
+                    var currentVert = baseVert + i;
+                    var nextVert = baseVert + ((i + 1) % sides);
+                    
+                    // these are the same verts but on the previous ring
+                    var currentVertLast = currentVert - sides;
+                    var nextVertLast = baseVert - sides + ((i + 1) % sides);
+                    
+                    triangleIndices.Add(currentVert);
+                    triangleIndices.Add(nextVert);
+                    triangleIndices.Add(currentVertLast);
+                    
+                    triangleIndices.Add(currentVertLast);
+                    triangleIndices.Add(nextVert);
+                    triangleIndices.Add(nextVertLast);
+                }
+                
+                var vertexPosition = point + normal * radialOffset.x + biTangent * radialOffset.y;
+                
+                vertices.Add(vertexPosition);
+                if (normals != null) normals.Add((vertexPosition - point).normalized );
+                if (uvs != null ) uvs.Add(new Vector2(ringRadius / radius,j / (float)_trunkPoints.Count));
+            }
+
+            ringCount++;
         }
         
-        //Gizmos.color = Color.red;
         foreach (var branch in _branches) {
-            //Gizmos.DrawLine(_trunkPoints[branch.trunkIndex], branch.points[0]);
             ringCount = 0;
             
             float trunkT = 1.0f - (branch.trunkIndex / (float)_trunkPoints.Count);
             
             for (var j = 0; j < branch.points.Count; j++) {
-                var pointWorld = branch.points[j];
-                var point = branch.points[j] - transform.position;
-                //Gizmos.DrawSphere(pointWorld, 0.05f);
+                var point = branch.points[j];
                     
                 Vector3 direction;
                 if (j > 0) {
                     var lastPoint = branch.points[j - 1];
-                    direction = Vector3.Normalize(lastPoint - pointWorld);
-                    //Gizmos.DrawLine(pointWorld, lastPoint);
+                    direction = Vector3.Normalize(lastPoint - point);
                 } else {
                     var nextPoint = branch.points[j + 1];
-                    direction = Vector3.Normalize(pointWorld - nextPoint);
+                    direction = Vector3.Normalize(point - nextPoint);
                 }
                 
                 var normal = Quaternion.LookRotation(direction, lastNormal) * Vector3.up;
@@ -211,10 +221,10 @@ public class AdvancedPlant : MonoBehaviour
                         Mathf.Cos(angRad),
                         Mathf.Sin(angRad)
                     );
-                    float ringRadius = trunkT * radius * branchT;
+                    float ringRadius = trunkT * radius * branchT * branchRadiusShrink;
                     radialOffset *= ringRadius;
 
-                    if (ringCount > 0) {
+                    if (triangleIndices != null && ringCount > 0) {
                         var currentVert = baseVert + i;
                         var nextVert = baseVert + ((i + 1) % sides);
                     
@@ -235,20 +245,73 @@ public class AdvancedPlant : MonoBehaviour
                     //Gizmos.DrawSphere(vertexPosition, 0.01f);
                 
                     vertices.Add(vertexPosition);
-                    normals.Add((vertexPosition - point).normalized);
+                    if (normals != null) normals.Add((vertexPosition - point).normalized);
                     int totalPoints = _trunkPoints.Count + branch.points.Count;
-                    uvs.Add(new Vector2(ringRadius / radius,(branch.trunkIndex + j) / (float)totalPoints));
+                    if (uvs != null) uvs.Add(new Vector2(ringRadius / radius,(branch.trunkIndex + j) / (float)totalPoints));
                 }
 
                 ringCount++;
             }
         }
+    }
+    
+    public void UpdateMesh() {
+        var vertices = new List<Vector3>();
+        GenerateMesh(vertices);
+        _mesh.SetVertices(vertices);
+    }
+
+    public void Generate(int seed) {
+        Random.InitState(seed);
+        _baseTrunkPoints = new List<Vector3>();
+        _baseBranches = new List<Branch>();
+
+        var offset = Vector3.zero;
+        var lastDirection = Vector3.up;
+        for (var i = 0; i < length; i++) {
+            _baseTrunkPoints.Add(offset);
+            var lastOffset = offset;
+            offset += GetRandomDirection(lastDirection) * distanceBetweenPoints;
+            lastDirection = Vector3.Normalize(offset - lastOffset);
+        }
         
-        mesh.SetVertices(vertices);
-        mesh.SetTriangles(triangleIndices, 0);
-        mesh.SetNormals(normals);
-        mesh.SetUVs(0, uvs);
+        for (var i = 0; i < length; i++) {
+            if (Random.Range(0.0f, 1.0f) < branchChance) {
+                var branchPointPos = _baseTrunkPoints[i];
+                var newBranch = new Branch();
+                newBranch.trunkIndex = i;
+                newBranch.points = new List<Vector3>();
+
+                newBranch.points.Add(branchPointPos);
+                
+                branchPointPos += GetRandomDirection(Vector2.up) * distanceBetweenPoints;
+                newBranch.points.Add(branchPointPos);
+                var branchLength = Random.Range(branchMinLength, branchMaxLength) - 1;
+                var lastBranchPos = _baseTrunkPoints[i];
+                for (var j = 0; j < branchLength; j++) {
+                    var direction = Vector3.Normalize(branchPointPos - lastBranchPos);
+                    lastBranchPos = branchPointPos;
+                    branchPointPos += GetRandomDirection(direction) * distanceBetweenPoints;
+                    newBranch.points.Add(branchPointPos);
+                }
+                
+                _baseBranches.Add(newBranch);
+            }
+        }
+
+        _mesh = new Mesh { name = "Plant" };
+        _mesh.Clear();
+        var vertices = new List<Vector3>();
+        var triangleIndices = new List<int>();
+        var normals = new List<Vector3>();
+        var uvs = new List<Vector2>();
+        GenerateMesh(vertices, uvs, normals, triangleIndices);
         
-        GetComponent<MeshFilter>().sharedMesh = mesh;
+        _mesh.SetVertices(vertices);
+        _mesh.SetTriangles(triangleIndices, 0);
+        _mesh.SetNormals(normals);
+        _mesh.SetUVs(0, uvs);
+        GetComponent<MeshFilter>().sharedMesh = _mesh;
+        Random.InitState(Environment.TickCount);
     }
 }

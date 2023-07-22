@@ -77,7 +77,7 @@ public class PlayerInteraction : MonoBehaviour
                         }
                         case ToolCursor.ToolsType.Plant1:
                         {
-                            Instantiate(plantPrefab, hit.point, Quaternion.Euler(-90, Random.Range(0, 360), 0));
+                            Instantiate(plantPrefab, hit.point, Quaternion.Euler(0, Random.Range(0, 360), 0));
                             break;
                         }
                     }

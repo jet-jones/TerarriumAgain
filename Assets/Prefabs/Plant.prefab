@@ -57,9 +57,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1574584602093616968}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: 0, w: 0.7071067}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.0049}
-  m_LocalScale: {x: 0.07, y: 0.07, z: 0.07}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5050858535859455077}
@@ -127,18 +127,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32acce5170c37c04389bb6ed9ce2a8de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.03
-  branchRadius: 1
-  sides: 12
-  seed: 642
+  windScale: 0.1
+  windIntensity: 0.4
+  windSpeed: 0.5
+  branchRadiusShrink: 0.5
+  radius: 0.18
+  sides: 6
   branchMinLength: 3
-  branchMaxLength: 20
+  branchMaxLength: 15
   wind: {x: 0, y: 0}
-  directionChangeStrength: 2.44
-  upStrength: -0.4
-  branchChance: 0.092
-  length: 72
-  distanceBetweenPoints: 0.02
+  directionChangeStrength: 1.71
+  upStrength: -0.48
+  branchChance: 0.243
+  length: 30
+  distanceBetweenPoints: 0.25
 --- !u!1 &2160412865035249379
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,9 +333,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5571957415426350815}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1100107610016225658}
@@ -357,16 +359,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b24b5c05cd742445804899da1759794, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextFruitChanceMultiplier: 500
+  nextFruitChanceMultiplier: 100
+  minFruitSpawns: 2
+  maxFruitSpawns: 5
   fruitPrefab: {fileID: 2793072932398794582, guid: ee45bc9efde55194a81b6a56aaf1ab5a,
     type: 3}
-  fruitGrowPoints:
-  - {fileID: 6584046308567151773}
-  - {fileID: 8561171398296907942}
-  - {fileID: 1295001035996385860}
   mesh: {fileID: 6608024596925736827}
   debugText: {fileID: 797921152838278286}
   growTime: 2
+  plant: {fileID: 8475853143922847075}
   grownFruit: []
 --- !u!1 &6543141218733088781
 GameObject:
