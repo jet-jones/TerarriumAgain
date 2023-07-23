@@ -363,7 +363,7 @@ MonoBehaviour:
   nextFruitChanceMultiplier: 100
   minFruitSpawns: 2
   maxFruitSpawns: 5
-  fruitPrefab: {fileID: 2793072932398794582, guid: ee45bc9efde55194a81b6a56aaf1ab5a,
+  fruitPrefab: {fileID: 4507970189085651473, guid: 9e5320e3e5cc3b74680097d609c87255,
     type: 3}
   mesh: {fileID: 6608024596925736827}
   debugText: {fileID: 797921152838278286}

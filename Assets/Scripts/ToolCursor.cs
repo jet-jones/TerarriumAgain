@@ -39,7 +39,7 @@ public class ToolCursor : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("mousedown:" + currentTool);
+            // Debug.Log("mousedown:" + currentTool);
 
             switch (currentTool)
             {

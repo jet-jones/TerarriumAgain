@@ -21,8 +21,9 @@ public class Fruit : MonoBehaviour, IInteraction
 
     private void Start()
     {
+        transform.Rotate(Vector3.left, 90f);
         transform.localScale = Vector3.zero;
-        fruitMat = mesh.material;
+        fruitMat = mesh.sharedMaterial;
         scale = Random.Range(minScale, maxScale);
         growTime = Random.Range(growTimeMin, growTimeMax);
     }

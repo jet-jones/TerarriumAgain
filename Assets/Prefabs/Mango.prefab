@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 174387188874569486}
   - component: {fileID: 2706517624257221572}
   - component: {fileID: 4806741512507420212}
+  - component: {fileID: -4459175811362665809}
   m_Layer: 0
   m_Name: Mango
   m_TagString: Untagged
@@ -103,3 +104,16 @@ MonoBehaviour:
   growTimeMin: 2
   growTimeMax: 4
   branchIndex: 0
+--- !u!135 &-4459175811362665809
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4507970189085651473}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.012641176
+  m_Center: {x: -0.00012469574, y: 0.0004534955, z: -0.010990155}
