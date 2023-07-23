@@ -45,6 +45,7 @@ public class AdvancedPlant : MonoBehaviour
     private Mesh _mesh;
 
     public void DrawDebug() {
+#if UNITY_EDITOR
         if (_branches != null) {
             //Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
             
@@ -63,6 +64,7 @@ public class AdvancedPlant : MonoBehaviour
                 }
             }
         }
+#endif
     }
     
     private Vector3 GetRandomDirection(Vector3 lastDirection) {
