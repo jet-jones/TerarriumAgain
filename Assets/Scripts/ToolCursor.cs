@@ -17,6 +17,7 @@ public class ToolCursor : MonoBehaviour
         Moss,
         Vines,
         PebbleLarge,
+        Frog
     }
 
     public GameObject pebblePrefab;

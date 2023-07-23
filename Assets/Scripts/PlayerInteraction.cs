@@ -14,6 +14,9 @@ public class PlayerInteraction : MonoBehaviour
     GameObject pebblePrefab;
 
     [SerializeField]
+    GameObject frogPrefab;
+
+    [SerializeField]
     private GameObject toolCursor;
 
     private void Start()
@@ -78,6 +81,12 @@ public class PlayerInteraction : MonoBehaviour
                         case ToolCursor.ToolsType.Plant1:
                         {
                             Instantiate(plantPrefab, hit.point, Quaternion.Euler(0, Random.Range(0, 360), 0));
+                            break;
+                        }
+                        case ToolCursor.ToolsType.Frog:
+                        {
+                            
+                            Instantiate(frogPrefab, hit.point, Quaternion.Euler(0, Random.Range(0, 360), 0));
                             break;
                         }
                     }
