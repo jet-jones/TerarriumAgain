@@ -31,7 +31,7 @@ public class Frog : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(2,3));
+            yield return new WaitForSeconds(Random.Range(3,6));
             // JUMP
             randomDir = new Vector3(Random.Range(-5f, 5f), 5, 0).normalized;
             rb.AddForce(randomDir * 5f, ForceMode.Impulse);

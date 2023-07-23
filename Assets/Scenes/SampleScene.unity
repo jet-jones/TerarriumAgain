@@ -625,6 +625,10 @@ PrefabInstance:
       propertyPath: audioClips.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1952144091, guid: 2e571894a1b3cd043bce8c2467c95a49, type: 3}
+      propertyPath: m_Volume
+      value: 0.496
+      objectReference: {fileID: 0}
     - target: {fileID: 8542423223693538447, guid: 2e571894a1b3cd043bce8c2467c95a49,
         type: 3}
       propertyPath: m_RootOrder
