@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3205736400987622393}
   - component: {fileID: 835953245829005107}
   - component: {fileID: -5513906020930553151}
-  - component: {fileID: 5857936225988770756}
   - component: {fileID: -1964960198240513497}
   - component: {fileID: 3402867234762241995}
+  - component: {fileID: 5692040458366966145}
   m_Layer: 0
   m_Name: Pebble_02
   m_TagString: Untagged
@@ -103,20 +103,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &5857936225988770756
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1196017397527961318}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1674573161285249776, guid: 2978372b417572a4abd9e7f87deda239, type: 3}
 --- !u!114 &-1964960198240513497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,3 +211,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &5692040458366966145
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196017397527961318}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.016, y: 0.008, z: 0.007}
+  m_Center: {x: -0.0015732623, y: 0.00014956552, z: 0.00006416952}
