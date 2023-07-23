@@ -621,10 +621,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1952144090, guid: 2e571894a1b3cd043bce8c2467c95a49, type: 3}
+      propertyPath: audioClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8542423223693538447, guid: 2e571894a1b3cd043bce8c2467c95a49,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8542423223693538447, guid: 2e571894a1b3cd043bce8c2467c95a49,
         type: 3}
@@ -897,7 +901,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 9e72d073fee079849aea72bd86af09a0,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9e72d073fee079849aea72bd86af09a0,
         type: 3}
@@ -1456,7 +1460,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 21129df45148cf44ca18cb4cf8b3a4cc,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 21129df45148cf44ca18cb4cf8b3a4cc,
         type: 3}
@@ -1805,7 +1809,7 @@ PrefabInstance:
     - target: {fileID: 5572683722207686487, guid: 637b09b9ff40637488d66b7b593d68d7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5572683722207686487, guid: 637b09b9ff40637488d66b7b593d68d7,
         type: 3}
@@ -2661,7 +2665,7 @@ RectTransform:
   - {fileID: 441691286}
   - {fileID: 119432920}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2988,7 +2992,7 @@ PrefabInstance:
     - target: {fileID: 5572683722207686487, guid: 637b09b9ff40637488d66b7b593d68d7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5572683722207686487, guid: 637b09b9ff40637488d66b7b593d68d7,
         type: 3}
