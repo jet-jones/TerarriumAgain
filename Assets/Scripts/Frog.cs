@@ -31,14 +31,16 @@ public class Frog : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(3,6));
+            yield return new WaitForSeconds(Random.Range(3, 6));
             // JUMP
-            randomDir = new Vector3(Random.Range(-5f, 5f), 5, 0).normalized;
+            randomDir = new Vector3(Random.Range(-5f, 5f), Random.Range(4,7), 0).normalized;
             rb.AddForce(randomDir * 5f, ForceMode.Impulse);
             audioSource.clip = audioClips[Random.Range(0, audioClips.Length)];
 
             audioSource.pitch = Random.Range(0.9f, 1.1f);
             audioSource.Play();
+
+            transform.LookAt(transform.position + randomDir);
         }
     }
 
@@ -51,9 +53,9 @@ public class Frog : MonoBehaviour
 
         // JUMP-DIR this is fucked
         // transform.LookAt(transform.position + randomDir);
-        Vector3 torqueDir = Vector3.Cross(transform.up, randomDir);
-        float angleToLookAt = Vector3.Angle(transform.up, randomDir);
-        rb.AddTorque(torqueDir * angleToLookAt * 0.05f);
+        // Vector3 torqueDir = Vector3.Cross(transform.up, randomDir);
+        // float angleToLookAt = Vector3.Angle(transform.up, randomDir);
+        // rb.AddTorque(torqueDir * angleToLookAt * 0.05f);
 
     }
 }

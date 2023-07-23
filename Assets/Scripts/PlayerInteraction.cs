@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -85,8 +87,7 @@ public class PlayerInteraction : MonoBehaviour
                         }
                         case ToolCursor.ToolsType.Frog:
                         {
-                            
-                            Instantiate(frogPrefab, hit.point, Quaternion.Euler(0, Random.Range(0, 360), 0));
+                            Instantiate(frogPrefab, hit.point + new Vector3(0,1,0), Quaternion.identity);
                             break;
                         }
                     }
